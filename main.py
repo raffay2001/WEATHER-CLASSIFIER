@@ -3,7 +3,8 @@ import joblib
 import tensorflow as tf
 import numpy as np
 import warnings
-warnings.simplefilter('ignore')
+
+warnings.simplefilter("ignore")
 
 
 def take_input_feature(feature, min_value=0, max_value=1000):
@@ -48,7 +49,7 @@ def main():
 
     # taking input from the user end
     percip_type = take_input_feature("percip_type")
-    temprature = take_input_feature("Temprature (C)", 10, 40)
+    temprature = take_input_feature("Temprature (C)", -10, 40)
     humidity = take_input_feature("Humidity", 0.0, 1.0)
     wind_speed = take_input_feature("Wind Speed", 0.0, 100.0)
     wind_bearing = take_input_feature("Wind Bearing", 0, 360)
@@ -74,7 +75,7 @@ def main():
             "Day": day,
             "Hour": hour,
         },
-        index=[0]
+        index=[0],
     )
 
     # encoding the input data frame values:
@@ -91,14 +92,6 @@ def main():
     classes = {0: "Clear", 1: "Foggy", 2: "Overcast"}
 
     # Models mapping:
-    # models = {
-    #     "Logistic Regression": joblib.load("./models/logistic_regression.pkl"),
-    #     "Gaussian Naive Bayes": joblib.load("./models/gaussian_nb.pkl"),
-    #     "Stochastic Gradient Descent": joblib.load("./models/sgd.pkl"),
-    #     "Decision Tree": joblib.load("./models/decision_tree.pkl"),
-    #     "K-Nearest Neighbors": joblib.load("./models/KNN.pkl"),
-    #     "Random Forest": joblib.load("./models/random_forest.pkl"),
-    # }
     models = {
         1: joblib.load("./models/logistic_regression.pkl"),
         2: joblib.load("./models/gaussian_nb.pkl"),
@@ -125,25 +118,28 @@ def main():
         print(f"The predicted class is: {classes[predicted_class]}")
         return
 
-    print(f"The predicted class is: {classes[predictions]}")
+    print(f"\n***********The predicted class is: {classes[predictions]}***********")
     return
 
 
 main()
 
-Summary = "Clear"
 
-Formatted_Date = "2016-09-09 07:00:00.000 +0200"	
-Precip_Type = "rain"
-Temprature = "16.07222222"
-Humidity =	"0.88"
-Wind_Speed = "2.7853"
-Wind_Bearing = "12"	
-Visibility = "15.7297"
-Pressure = "1015.25"
-Hour = 7
-Year = 2016
-Month = 9
-Day = 9
+# -----------------------------------------------Testing Data-------------------------------------------#
+
+# Summary  | Precip Type |	Temperature (C) |	Humidity |	Wind Speed (km/h)
+# Overcast   snow	         -1.738888889	    0.88	    20.3343
+# Foggy      rain            5.211111111        0.92        4.7656
+# Clear	     rain	         13.31111111	    0.82	    3.542
+# Overcast	 rain	         17.01111111	    0.91	    5.4096
+# Foggy	     snow	        -1.088888889	    0.93	    10.9319
+# Clear	     rain	        15.01111111	        0.93	    3.2039
 
 
+# Wind Bearing (degrees) | Visibility (km)   |	Pressure (millibars) |	Year |	Month |  Day |  Hour
+# 281	                      4.3953	          1010.86	            2006  	 2	     26	    22
+# 178                         1.2236              1013.4                2006     4       14     4
+# 73	                      15.8263	          1018.44	            2006	 4	     25	    22
+# 178	                      13.685	          1013.23	            2006	 8	     14	    0
+# 180	                      0.322	              1032.88	            2006	12	     13	    7
+# 341	                     15.8263	          1014.37	            2016	9	     9	    2
